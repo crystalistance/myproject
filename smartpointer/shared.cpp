@@ -1,17 +1,18 @@
 #include <iostream>
 #include <memory>
+#include <iostream>
 
 int main() {
-    int a = 10;
-    std::shared_ptr<int> ptra = std::make_shared<int>(a);
-    std::shared_ptr<int> ptra2(ptra);
 
-    std::cout << ptra.use_count() << std::endl;
+    std::shared_ptr<int> p(new int(1));
+    std::shared_ptr<int> p2 = p;
+    std::shared_ptr<int> ptr = std::make_shared<int>(2);
+    ptr.reset(new int(1));
 
-    int b = 20;
-    int *pb = &a;
 
-    std::shared_ptr<int> ptrb = std::make_shared<int>(b);
-    ptra2 = ptrb;
-    pb = 
+    std::cout << p.use_count() << std::endl;
+    std::cout << p2.use_count() << std::endl;
+    std::cout << ptr.use_count() << std::endl;
+
+    return 0;
 }
