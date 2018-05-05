@@ -15,15 +15,21 @@
 ### 构造函数创建和make_shared哪种方式更好？
 #### 构造函数方式
   优点：
+
   1.支持用户自定义释放器
+
   std::shared_ptr<int> p4(new int, [](int *p){delete p;std::cout << "lamabda" << std::endl;});
 
   2.支持大括号初始化方式
+
   std::shared_ptr<std::vector<int>> p5(new std::vector<int>{10,20});
+
   std::cout << (*p5)[1] << std::endl;
 
-  缺点
+  缺点:
+
   1.不安全 (不要在实参中创建shared_ptr)
+
   function (std::shared_ptr<int>(new int), g())
 
   因为c++函数参数的计算顺序在不同的编译器不同的调用约定下可能是不一样的，所以如果先new int，然后调用g(),恰好g()发生异常，则shared_ptr还没有创建，就会发生内存泄露。
@@ -39,12 +45,13 @@
   优点：
   1.执行效率高
   make_shared会为int和控制块一次性分配一块大的内存，提高了程序的执行效率
+
   2.安全
   将new操作和shared_ptr的构造放在一起执行，就不会出现内存泄漏问题了。
-
+    
   缺点：
-  1.不支持用户自定义释放器。由于make函数有自己的内存分配和析构规则，所以他不适用于那些有自定义分配器和释放器的对象。
-  2.make函数不支持大括号初始化方式。对于下面这句代码：
+    1.不支持用户自定义释放器。由于make函数有自己的内存分配和析构规则，所以他不适用于那些有自定义分配器和释放器的对象。
+    2.make函数不支持大括号初始化方式。对于下面这句代码：
 
   auto spv = std::make_shared<vector<int>>(10,20);
 
