@@ -4,14 +4,14 @@
 
 ### 内部数据结构 sds(simple dynamic string)
 
-`struct sdshdr {
+```struct sdshdr {
 
     int len;
 
     int free;
 
     char buf[];
-}`
+}```
 
 ### 优点
 
@@ -26,32 +26,30 @@
 
 ### 内部数据结构
 
-`
-typedef struct listNode {
-    struct listNode *prev;
-    struct listNode *next;
+    typedef struct listNode {
+        struct listNode *prev;
+        struct listNode *next;
 
-    void *value;
-}listNode;
+        void *value;
+    }listNode;
 
-typedef struct list {
-    listNode *head;
-    listNode *tail;
+    typedef struct list {
+        listNode *head;
+        listNode *tail;
 
-    unsigned long len;
+        unsigned long len;
 
-    //节点复制函数
-    void (*dup)(void *ptr);
+        //节点复制函数
+        void (*dup)(void *ptr);
 
-    //节点值释放函数
-    void (*free)(void *ptr);
+        //节点值释放函数
+        void (*free)(void *ptr);
 
-    //节点值对比函数
-    void (*match)(void *ptr, void *key);
+        //节点值对比函数
+        void (*match)(void *ptr, void *key);
 
-}list;
+    }list;
 
-`
 ### 特性
 
 1) 双端
