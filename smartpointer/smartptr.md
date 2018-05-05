@@ -67,3 +67,18 @@
   在使用new的方式中，有两块独立的堆内存，一块存放资源对象，一块存放控制块，当资源对象的引用计数为0的时候，资源对象会被销毁，它所占用的内存也会被随之销毁。
 
   在使用make函数的方式中，make函数一次性为资源对象和控制块分配了一块内存，当资源对象的引用计数为0是，对象被销毁，但是资源对象占用的内存却不会被销毁，只有当控制块占用的内存被销毁是才会将资源对象所占内存一并释放。那么，控制块内存什么时候被释放呢？这就涉及到控制块中另一个引用计数了，这个引用计数被称为“Weak Count”,其作用是用来计数指向该资源的weak_ptr的数量。当这个weak count的值为0时，控制块才会被释放。当资源对象非常庞大时，使用make函数的方式将造成不小的资源浪费。
+
+## unique_ptr
+  unique_ptr不能拷贝 赋值，只能通过st::move
+
+    //std::unique_ptr<int> p4(new int, [](int *p){delete p;}); //错误
+
+    std::unique_ptr<int, void(*)(int*)> p5(new int, [](int*p){delete p;});//需要指定删除函数的类型
+
+     // std::unique_ptr<int, void(*)(int*)> p6(new int, [&](int*p){delete p;});//错误 捕获变量的lambda不能转换成函数指针 
+
+    std::unique_ptr<int, std::function<void(int *)>> p7(new int, [&](int *p){delete p;});//正确
+
+
+## weak_ptr
+
