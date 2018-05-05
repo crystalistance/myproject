@@ -4,7 +4,8 @@
 
 ### 内部数据结构 sds(simple dynamic string)
 
-```struct sdshdr {
+```
+struct sdshdr {
 
     int len;
 
